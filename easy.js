@@ -31,8 +31,33 @@ var assert = require("assert")
 // Explanation: Empty array...
 
 const altNumbers = (numArray) => {
-    // TODO: COMPLETE THIS FUNCTION
-    return [];
+    const newArray = [];
+    let negIdx = numArray.findIndex(n => n < 0);
+    let posIdx = negIdx ? 0 : numArray.findIndex(n => n >= 0);
+    if (numArray.filter(n => n < 0).length * 2 > numArray.length) {
+        // we have more -ve numbers than +ve, so add a -ve num first
+        newArray.push(numArray[negIdx++]);
+    }
+
+    while (newArray.length < numArray.length) {
+        while (numArray[posIdx] < 0) {
+            posIdx++;
+        }
+        newArray.push(numArray[posIdx++]);
+
+        if (newArray.length === numArray.length) {
+            // while this isn't necessary to make the tests happy, we should
+            // still stop here to avoid an unnecessary undefined at the end
+            break;
+        }
+
+        while (numArray[negIdx] >= 0) {
+            negIdx++;
+        }
+        newArray.push(numArray[negIdx++]);
+    }
+
+    return newArray;
 }
 
 module.exports = { altNumbers } // Do not modify this line
